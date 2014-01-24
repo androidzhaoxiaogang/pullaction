@@ -1,6 +1,7 @@
-package xg.pullaction;
+package xg.pullaction.activities;
 
 
+import xg.pullaction.R;
 import xg.pullaction.adapters.MyPagerAdapter;
 import xg.pullaction.views.PagerSlidingTabStrip;
 
@@ -11,7 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 
 public class MainActivity extends SherlockFragmentActivity {
-
+	
 	protected void onCreate(Bundle paramBundle) {
 		super.onCreate(paramBundle);
 		setContentView(R.layout.activity_main);
@@ -21,7 +22,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		tabs.setIndicatorColorResource(R.color.tab_indicator);
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setOffscreenPageLimit(5);
-		//pager.setOnPageChangeListener(pageListener);
 		
 		MyPagerAdapter adapter = new MyPagerAdapter(this, getSupportFragmentManager());
 		
@@ -38,4 +38,5 @@ public class MainActivity extends SherlockFragmentActivity {
 		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+
 }

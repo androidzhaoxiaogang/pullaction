@@ -32,7 +32,6 @@ public class HomeFragment extends SherlockFragment {
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		ImageView mover = (ImageView) view.findViewById(R.id.mover);
 		mover.setTag("mover");
-		
 		return view;
 	}
 	

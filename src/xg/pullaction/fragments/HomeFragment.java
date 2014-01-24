@@ -10,8 +10,7 @@ import android.widget.ImageView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class HomeFragment extends SherlockFragment {
-	private ImageView mover;
-
+	
 	public static HomeFragment newInstance(int position) {
 		HomeFragment f = new HomeFragment();
 		return f;
@@ -31,7 +30,9 @@ public class HomeFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
-		mover = (ImageView) view.findViewById(R.id.mover);
+		ImageView mover = (ImageView) view.findViewById(R.id.mover);
+		mover.setTag("mover");
+		
 		return view;
 	}
 	

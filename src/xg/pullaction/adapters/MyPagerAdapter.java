@@ -8,13 +8,13 @@ import xg.pullaction.fragments.HomeFragment3;
 import xg.pullaction.fragments.HomeFragment4;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
 	private String[] TITLES;
 
-	public MyPagerAdapter(Context context,
-			android.support.v4.app.FragmentManager fm) {
+	public MyPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		TITLES = context.getResources().getStringArray(R.array.fragment_title);
 	}
@@ -42,9 +42,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 			return HomeFragment3.newInstance(position);
 		case 4:
 			return HomeFragment4.newInstance(position);
-		default :
+		default:
 			return HomeFragment.newInstance(position);
-		
+
 		}
 	}
 

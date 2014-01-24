@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.TypedValue;
+import android.widget.ImageView;
 
 public class MainActivity extends SherlockFragmentActivity {
 
 	private final PageListener pageListener = new PageListener();
+	private ImageView mover;
 	
 	
 	protected void onCreate(Bundle paramBundle) {
@@ -25,7 +27,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		tabs.setIndicatorColorResource(R.color.tab_indicator);
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setOffscreenPageLimit(5);
-		pager.setOnPageChangeListener(pageListener);
+		//pager.setOnPageChangeListener(pageListener);
 		
 		MyPagerAdapter adapter = new MyPagerAdapter(this, getSupportFragmentManager());
 		
@@ -47,17 +49,18 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-			
+			System.out.println("-------------"+arg0);
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			System.out.println("======arg0 "+ arg0 + "=========arg1=======" + arg1+"=====arg2==========="+arg2);
 			
 		}
 
 		@Override
 		public void onPageSelected(int arg0) {
-			
+			System.out.println("-------------"+arg0);
 		}
 
 	}

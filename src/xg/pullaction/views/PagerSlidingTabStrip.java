@@ -2,6 +2,7 @@
 package xg.pullaction.views;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -13,6 +14,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -29,7 +32,10 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import xg.pullaction.R;
+import xg.pullaction.utils.AlphaColorSpan;
 
 @SuppressLint("NewApi") public class PagerSlidingTabStrip extends HorizontalScrollView {
 
@@ -85,6 +91,14 @@ import xg.pullaction.R;
 	private int tabBackgroundResId = R.drawable.background_tab;
 
 	private Locale locale;
+	
+	private SpannableString mSpannableString;
+	private AlphaColorSpan mAlphaColorSpan;
+	private int mActionBarTitleColor;
+	private int mActionBarHeight;
+	private int mMinHeaderTranslation;
+	private TypedValue mTypedValue = new TypedValue();
+	private int[] location = new int[2];  
 
 	public PagerSlidingTabStrip(Context context) {
 		this(context, null);
@@ -114,6 +128,10 @@ import xg.pullaction.R;
 		tabPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, tabPadding, dm);
 		dividerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dividerWidth, dm);
 		tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
+		
+		mSpannableString = new SpannableString(context.getString(R.string.message_title));
+		mActionBarTitleColor = getResources().getColor(R.color.actionbar_title_color);
+		mAlphaColorSpan = new AlphaColorSpan(mActionBarTitleColor);
 
 		// get system attrs (android:textSize and android:textColor)
 
@@ -291,6 +309,16 @@ import xg.pullaction.R;
 		}
 
 	}
+	 
+	private void setTitleAlpha(float alpha) {
+		mAlphaColorSpan.setAlpha(alpha);
+		mSpannableString.setSpan(mAlphaColorSpan, 0, mSpannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		((SherlockFragmentActivity)getContext()).getActionBar().setTitle(mSpannableString);
+	}
+	
+	static float clamp(float value, float max, float min) {
+		return Math.max(Math.min(value, min), max);
+	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -338,11 +366,15 @@ import xg.pullaction.R;
 		}
 	}
 	
-	private void onMover(View view1) {
-		view1.setTranslationX(0.0f);
-        view1.setTranslationY(-100f);
-        view1.setScaleX(0.5f);
-        view1.setScaleY(0.5f);
+	private void onMover(View view1, int viewWidth, int viewHeight, float ratio) {
+		
+		mMinHeaderTranslation = (int)((-viewHeight+200) * ratio) ;
+		
+		System.out.println("=====================***************"+mMinHeaderTranslation);
+		view1.setTranslationX(200);
+        view1.setTranslationY(-800);
+        //view1.setScaleX(0.5f);
+        //view1.setScaleY(0.5f);
 	}
 	
 	private void onMover1(View view1) {
@@ -370,7 +402,21 @@ import xg.pullaction.R;
 			    mover.startAnimation(am);
 			} else {
 				mover.clearAnimation(); 
-				onMover(mover);
+				
+				float ratio =  positionOffset;
+				if(positionOffset != 0.0)
+				setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+				
+				
+				if( location[0] == 0 && location[1] == 0) {
+					mover.getLocationOnScreen(location);  
+				}
+	            int x = location[0];  
+	            int y = location[1];  
+	            System.out.println("----------------x:"+x+"y:"+y); 
+	            
+	            if(positionOffset != 0.0)
+	            onMover(mover, x, y, positionOffset);
 			}
 			
 			currentPosition = position;
@@ -597,5 +643,14 @@ import xg.pullaction.R;
 			}
 		};
 	}
+	
+	private int getActionBarHeight() {
+        if (mActionBarHeight != 0) {
+            return mActionBarHeight;
+        }
+        ((SherlockFragmentActivity)getContext()).getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
+        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
+        return mActionBarHeight;
+    }
 
 }

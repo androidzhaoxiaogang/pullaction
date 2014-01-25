@@ -5,6 +5,7 @@ import xg.pullaction.R;
 import xg.pullaction.adapters.MyPagerAdapter;
 import xg.pullaction.views.PagerSlidingTabStrip;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		pager.setPageMargin(pageMargin);
 		pager.setAdapter(adapter);
 		tabs.setViewPager(pager);
+		
+		setupActionBar();
 	}
 	
 	
@@ -38,5 +41,10 @@ public class MainActivity extends SherlockFragmentActivity {
 		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.drawable.ic_transparent);
+    }
 
 }

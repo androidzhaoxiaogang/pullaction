@@ -98,6 +98,7 @@ import xg.pullaction.utils.AlphaColorSpan;
 	private int mActionBarHeight;
 	private int mMinHeaderTranslation;
 	private TypedValue mTypedValue = new TypedValue();
+
 	private int[] location = new int[2];  
 
 	public PagerSlidingTabStrip(Context context) {
@@ -367,7 +368,6 @@ import xg.pullaction.utils.AlphaColorSpan;
 	}
 	
 	private void onMover(View view1, int viewWidth, int viewHeight, float ratio) {
-		
 		mMinHeaderTranslation = (int)((-viewHeight+200) * ratio) ;
 		
 		System.out.println("=====================***************"+mMinHeaderTranslation);
@@ -406,7 +406,6 @@ import xg.pullaction.utils.AlphaColorSpan;
 				float ratio =  positionOffset;
 				if(positionOffset != 0.0)
 				setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
-				
 				
 				if( location[0] == 0 && location[1] == 0) {
 					mover.getLocationOnScreen(location);  
